@@ -44,7 +44,9 @@ class Program:
 
         completion = self.database.get_completion(course_name) #get completion from the database
 
-        return print(completion) if completion != None else print('Completion does not exist') #print the completion if it exists, else print 'completion does not exist'
+        course_name, grade, study_points = completion #unpack the completion
+
+        return print(f'{course_name.capitalize() + ":" : <10}  ({study_points}) ects, grade: {grade}\n') if completion != None else print('Completion does not exist') #print the completion if it exists, else print 'completion does not exist'
 
     def get_all_completions(self):
         completion_data = self.database.get_all_completions() #get all completions from the database
@@ -52,10 +54,11 @@ class Program:
         if len(completion_data) == 0: #if there are no completions
             return print('No completions yet')
 
-        for completion in completion_data: #loop through the completions
-            print(completion) #print the completion
+        for (course_name, grade, study_points) in completion_data: #loop through the completions
+            print(f'{course_name.capitalize() + ":" : <10}  ({study_points}) ects, grade: {grade}') #print the completion. The <10 makes the course name have 10 characters, and the rest is filled with spaces
 
-    
+        print()
+
     def update_course(self):
         
         course_name_list = [name[0] for name in self.database.get_all_coursenames()] #get all course names from the database
