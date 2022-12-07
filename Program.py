@@ -61,7 +61,7 @@ class Program:
             return print('No completions yet')
 
         for (course_name, grade, study_points) in completion_data: #loop through the completions
-            print(f'{course_name.capitalize() + ":" : <10}  ({study_points}) ects, grade: {grade}') #print the completion. The <10 makes the course name have 10 characters, and the rest is filled with spaces
+            print(f'{course_name.capitalize() + ":" : <15}  ({study_points}) ects, grade ({grade})') #print the completion. The <10 makes the course name have 10 characters, and the rest is filled with spaces
 
         print()
 
