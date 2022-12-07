@@ -106,7 +106,19 @@ class Program:
 
     def delete_completion(self):
 
-        course_name = input('give course name: ').lower()
+        course_name_list = [name[0] for name in self.database.get_all_coursenames()] #get all course names from the database
+
+        if len(course_name_list) == 0: #if there are no completions
+            return print('No completions yet')
+        
+
+        print('Course names: ') #prints all the course names that exist
+        for name in course_name_list:
+            print(name) #print all the course names
+        
+        print()
+
+        course_name = input('give course name to delete: ').lower()
         result = self.database.delete_completion(course_name) #delete completion from the database
         return print(f'{course_name} deleted') if result else print('Completion does not exist')
 
