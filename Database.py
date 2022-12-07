@@ -102,4 +102,11 @@ class Database:
 
 
 
+    #get average grade from the database
+    def get_average_grade(self):
+        return self.cursor.execute('SELECT AVG(grade) FROM Course').fetchone()[0]
+
+    # get weighted average grade from the database
+    def get_weighted_average_grade_details(self):
+        return self.cursor.execute('SELECT SUM(grade * study_points), SUM(study_points) FROM Course').fetchall()[0]
 

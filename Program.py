@@ -105,6 +105,8 @@ class Program:
         return print(f'{course_name} deleted') if result else print('Completion does not exist')
 
     def print_statistics(self):
+
+        #for grade distribution
         grade_statistics = self.database.get_all_grades_and_count() #fetch all completions from the database and return them as a list of tuples [(grade, count of grade) ...]
 
         if len(grade_statistics) == 0: #if there are no completions
@@ -127,6 +129,24 @@ class Program:
         
         for key, val in grade_distribution.items():
             print(f'{key}: {val}')
+
+
+        print()
+
+        #for average grade
+        average_grade = self.database.get_average_grade() #get the average grade from the database
+        print(f'Average grade: {round(average_grade, 2)}')
+
+
+        #for weighted average grade
+        grade_x_point_sum, pointsum = self.database.get_weighted_average_grade_details() #get the weighted average grade from the database
+        weighted_average_grade = grade_x_point_sum / pointsum
+
+        print(f'Weighted average grade: {round(weighted_average_grade, 2)}')
+
+        print()
+
+
 
     def clearTerminal(self):
         from os import system, name
