@@ -32,19 +32,25 @@ class Program:
             except ValueError:
                 print('Give valid input (0 - 30)')
         
+        
 
         if course_name != None and grade != None and study_points != None: #if all the values are not None
+            
             result = self.database.add_completion(course_name, grade, study_points) #add completion to the database
-
-            return print(f'{course_name} added') if result else print('Error in adding completion')
+            
+            return print(f'{course_name} added') if result else print('Completion already exists') #print if the completion was added or not
 
 
     def get_completion(self):
         course_name = input('give course name: ').lower() #ask for course name
 
-        completion = self.database.get_completion(course_name) #get completion from the database
+        try:
+            completion = self.database.get_completion(course_name) #get completion from the database
+            course_name, grade, study_points = completion #unpack the completion
+        
+        except:
+            return print('Completion does not exist')
 
-        course_name, grade, study_points = completion #unpack the completion
 
         return print(f'{course_name.capitalize() + ":" : <10}  ({study_points}) ects, grade: {grade}\n') if completion != None else print('Completion does not exist') #print the completion if it exists, else print 'completion does not exist'
 

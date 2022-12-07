@@ -15,27 +15,27 @@ class Database:
          
     #generates unique id with timestamp
     def id_generator(self):
-        number_of_ids = self.cursor.execute('SELECT COUNT(*) FROM Course').fetchone()[0] #get number of ids in the database
-        _id = number_of_ids #set the id to the number of ids
+        last_id = self.cursor.execute('SELECT MAX(id) FROM Course').fetchone()[0] #get the last id from the database
+        _id = last_id + 1 #set the id to the number of ids
         while True:
             yield _id
             _id += 1
 
     #add completion to the database
     def add_completion(self, course_name, grade, study_points):
-
+        
         result = self.cursor.execute('SELECT course_name FROM Course WHERE course_name = ?', [course_name]).fetchone() #checking if course exists
 
-        if result == None: #if course does not exist
-            try: #try to add completion to the database
-                self.cursor.execute('INSERT INTO Course (id, course_name, grade, study_points) VALUES (?, ?, ?, ?)', [next(self.unique_id), course_name, grade, study_points])
-                self.conn.commit()
-                return True
-            except:
-                return False
+        if result != None or result is not None: #if course exist
+            return False
         
-        else: #if course exists
-            return print('Course already exists')
+        try:
+            self.cursor.execute('INSERT INTO Course (id, course_name, grade, study_points) VALUES (?, ?, ?, ?)', [next(self.unique_id), course_name, grade, study_points]) #add completion to the database
+            self.conn.commit()
+            return True
+        except:
+            return False
+
 
 
     def update_course(self, course_name, new_course_name=None, new_grade=None, new_study_points=None):
