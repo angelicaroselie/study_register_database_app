@@ -37,16 +37,16 @@ class Database:
             return False
 
 
-
+    #updating course
     def update_course(self, course_name, new_course_name=None, new_grade=None, new_study_points=None):
+
         course_details = self.cursor.execute('SELECT id, grade, study_points FROM Course WHERE course_name = ?', [course_name]).fetchone() #checking if course exists
-        id, grade, study_points = course_details #set id, grade and study points to the course details
+        id, grade, study_points = course_details #unpacking the course details
         
         if len(course_details) == 0 or course_details == None: #if course does not exist
             return print('Course does not exist')
 
-    
-        try:
+        try: #try to update the course
             self.cursor.execute(''' UPDATE Course 
                                     SET course_name = ?, 
                                     grade = ?, 
@@ -60,19 +60,16 @@ class Database:
                                 id
                                 ])
             self.conn.commit()
-            return True
-        except:
+            return True #return True if course was updated
+        except: #if course was not updated
             return False
     
     
-            
-
     
 
     #fetches all course names from the database
     def get_all_coursenames(self):
         return self.cursor.execute('SELECT course_name FROM Course').fetchall()
-
 
 
     #get completion from the database by course name
@@ -89,17 +86,18 @@ class Database:
 
 
         if course != None: #if course exists
-            try:
-                self.cursor.execute('DELETE FROM Course WHERE course_name = ?', [course_name])
+            try: #try to delete the course
+                self.cursor.execute('DELETE FROM Course WHERE course_name = ?', [course_name]) #delete course from the database by course name
                 self.conn.commit()
-                return True
-            except:
+                return True #return True if course was deleted
+            except: #if course was not deleted
                 return False
         
 
-    def get_all_grades_and_count(self):
+    #For statistics
+    #get all grades and grade count from the database
+    def get_all_grades_and_count(self): 
         return self.cursor.execute('SELECT grade, COUNT(grade) FROM Course GROUP BY grade').fetchall()
-
 
 
     #get average grade from the database

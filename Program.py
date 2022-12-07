@@ -2,34 +2,35 @@ from Database import Database
 
 class Program:
     def __init__(self):
-        self.database = Database()
-        self.run()
+        self.database = Database() #create database object
+        self.run() #run the program
 
+    #add completion to the database
     def add_completion(self):
-        course_name = None
+        course_name = None 
         grade = None
         study_points = None
 
-        while course_name is None:
+        while course_name is None: #loop until course name is not None
             try:
                 course_name = input('give course name: ').lower()
             except:
                 print('Give valid input')
 
-        while grade is None:
-            try:
+        while grade is None: #loop until grade is not None 
+            try: #try to convert the input to an integer
                 grade = int(input('give grade (0 - 5): '))
-                if grade < 0 or grade > 5:
+                if grade < 0 or grade > 5: #if the grade is not between 0 and 5
                     grade = None
-            except ValueError:
+            except ValueError: #if the input is not an integer
                 print('Give valid input (0 - 5)')
         
-        while study_points is None:
-            try:
+        while study_points is None: #loop until study points is not None
+            try: #try to convert the input to an integer
                 study_points = int(input('give study points: '))
-                if study_points < 0 or study_points > 30:
+                if study_points < 0 or study_points > 30: #if the study points is not between 0 and 30
                     study_points = None
-            except ValueError:
+            except ValueError: #if the input is not an integer
                 print('Give valid input (0 - 30)')
         
         
@@ -165,7 +166,7 @@ class Program:
         print()
 
 
-
+    #this function clears the terminal
     def clearTerminal(self):
         from os import system, name
         # for windows
